@@ -1,0 +1,16 @@
+# 作業メモ(Claude Code向け指示を含む)は公開しない。公開用の整理版は docs/ にある
+CLAUDE.md
+
+# バックアップ・重複ファイル
+*コピー*
+*.bak
+
+# 認証情報(QuickStatements APIトークン等は絶対にコミットしない)
+.env
+*.token
+secrets*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
