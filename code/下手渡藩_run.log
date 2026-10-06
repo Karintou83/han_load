@@ -1,0 +1,21 @@
+[1/2] 在職者一覧を取得中...
+Template:下手渡藩主 を取得・パース中...
+
+--- stderr ---
+Traceback (most recent call last):
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 1212, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 1208, in main
+    run_draft_family(args.han_title)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 1058, in run_draft_family
+    officeholders = resolve_officeholders(han_title)
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 876, in resolve_officeholders
+    wikitext = get_template_wikitext(han_title)
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 133, in get_template_wikitext
+    return get_wikitext(f"Template:{han_title}主")
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\tt010\OneDrive\Desktop\wiki\Diff\峰山藩主のWikidataを整備する\code\create_han_lord_position.py", line 127, in get_wikitext
+    raise ValueError(f"ページが見つかりません: {title}")
+ValueError: ページが見つかりません: Template:下手渡藩主

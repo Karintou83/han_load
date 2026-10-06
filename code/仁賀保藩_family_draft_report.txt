@@ -1,0 +1,2 @@
+[仁賀保挙誠] 父=赤尾津光政 のWikidata項目が見つかりません。新規作成コマンドを new_persons_all.tsv に出力しました(投入後に --family-only で再実行してください)。
+[仁賀保挙誠] 養父=仁賀保挙晴 のWikidata項目が見つかりません。初代の養父のため、新規作成コマンドを new_persons_all.tsv に出力しました(投入後に --family-only で再実行してください)。
