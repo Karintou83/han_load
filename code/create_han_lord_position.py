@@ -321,11 +321,44 @@ def search_qid_by_label(name: str) -> str | None:
     return None  # 完全一致が無ければ「見つからない」扱いにする(誤爆防止)
 
 
+_QID_OVERRIDES_PATH = "person_qid_overrides.tsv"
+_qid_overrides_cache: dict[str, str] | None = None
+
+
+def _load_qid_overrides() -> dict[str, str]:
+    """
+    person_qid_overrides.tsv(人物名<TAB>QID)を読み込む。日本語版Wikipediaに記事が無く、
+    Wikidata側だけに作った項目は、記事タイトル経由では見つからず、ラベル検索も
+    索引の反映待ちで外れることがあるため、判明しているQIDをここに書いて最優先で使う。
+    ファイルが無ければ空。スクリプトと同じフォルダ(カレントではなく)から読む。
+    """
+    global _qid_overrides_cache
+    if _qid_overrides_cache is not None:
+        return _qid_overrides_cache
+    import os
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), _QID_OVERRIDES_PATH)
+    table: dict[str, str] = {}
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                line = line.rstrip("\n")
+                if not line.strip() or line.lstrip().startswith("#"):
+                    continue
+                parts = line.split("\t")
+                if len(parts) >= 2 and re.fullmatch(r"Q\d+", parts[1].strip()):
+                    table[parts[0].strip()] = parts[1].strip()
+    _qid_overrides_cache = table
+    return table
+
+
 def resolve_person_qid(name: str) -> str | None:
     """
     人物名からQIDを解決する。まずjawiki記事経由(title_to_qid)を試し、
     見つからなければWikidataのラベル完全一致検索にフォールバックする。
     """
+    override = _load_qid_overrides().get(name)
+    if override:
+        return override
     qid = title_to_qid(name)
     if qid:
         return qid
