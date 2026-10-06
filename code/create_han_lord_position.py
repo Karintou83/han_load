@@ -47,13 +47,19 @@ edo-daimyo-genealogy: 「○○藩主」役職のWikidata項目を自動生成�
 from __future__ import annotations
 
 import argparse
+import os
 import re
 import time
 import requests
 
 JAWIKI_API = "https://ja.wikipedia.org/w/api.php"
 WIKIDATA_API = "https://www.wikidata.org/w/api.php"
-USER_AGENT = "edo-daimyo-genealogy-script/0.1 (personal research project)"
+# Wikimediaの User-Agent policy は、連絡先(メールアドレスまたはURL)を含めることを求めている。
+# 環境変数 EDO_UA_CONTACT があればそれを使い、なければ作者のWikipedia利用者ページを使う。
+# 他の人が使うときは、自分の連絡先を EDO_UA_CONTACT に設定すること。
+#   例(PowerShell): $env:EDO_UA_CONTACT = "https://ja.wikipedia.org/wiki/User:YourName"
+_UA_CONTACT = os.environ.get("EDO_UA_CONTACT", "https://ja.wikipedia.org/wiki/User:Lin_Xiangru")
+USER_AGENT = f"edo-daimyo-genealogy-script/0.1 ({_UA_CONTACT}; personal research project)"
 _REQUEST_TIMEOUT = 30  # 秒。回線が遅い/応答が返ってこない場合にリクエストが無限に固まるのを防ぐ
 
 # --- 全藩共通の定数(峰山藩 Q141515630 の実例から確定させたもの) -----------
@@ -148,25 +154,86 @@ _LINK_YEAR_PATTERNS = [
 ]
 
 
+# <small>...</small> の中身を、カンマ等で区切られた「1つ以上の在任期間」として読む。
+# 例: "1866-1868"(通常) / "1866"(単年) / "1866-1868,1868"(再任を含む複数期間)
+# 単年の記述(阿部正静の "1866" "1868" など)は、開始年=終了年=その年として扱う。
+# "1866-" のように終了年が欠けている場合は、終了年を None のまま返す。
+_SMALL_RE = re.compile(
+    r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]\s*<small>(.*?)</small>", re.DOTALL
+)
+_PERIOD_SPLIT_RE = re.compile(r"\s*[,、，/／]\s*")
+_PERIOD_RE = re.compile(r"^(\d{3,4})?\s*(?:([-–〜~－])\s*(\d{3,4})?)?$")
+# 年の直後の補足(1809) / （1809） は無視する(例: 伊達周宗 "1796-1812(1809)")。
+# 補足年の意味はTemplateごとに異なり(隠居・実質的な交代など)、正式な在任期間は括弧の外の年とみなす。
+_PAREN_YEAR_RE = re.compile(r"[（(]\s*\d{3,4}\s*[）)]")
+
+# 取り込めなかった <small> を警告するために、解析結果の横に残しておく
+LAST_PARSE_WARNINGS: list[str] = []
+
+
+def _parse_periods(text: str) -> list[tuple[int | None, int | None]] | None:
+    """
+    <small>の中身を [(開始年, 終了年), ...] に変換する。解釈できなければNone。
+    "1866" は単年(開始=終了)、"-1616" は開始年なし、"1700-" は終了年なしとして
+    それぞれ None を返す(P580/P582は取れた側だけ付与される)。
+    """
+    text = re.sub(r"<[^>]+>", "", text)
+    text = _PAREN_YEAR_RE.sub("", text).strip()
+    periods = []
+    for part in _PERIOD_SPLIT_RE.split(text):
+        if not part:
+            continue
+        m = _PERIOD_RE.match(part)
+        if not m:
+            return None
+        start, dash, end = m.groups()
+        if start is None and end is None:
+            return None
+        if dash is None:
+            periods.append((int(start), int(start)))  # 単年
+        else:
+            periods.append((int(start) if start else None, int(end) if end else None))
+    return periods or None
+
+
 def parse_officeholders_with_years(wikitext: str) -> list[dict]:
     """
     テンプレートのwikitextから [[人物]]+在任年 の並びを出現順に抽出する。
 
     戻り値: [{"title": "鍋島元茂", "start_year": 1642, "end_year": 1654}, ...]
 
-    上記2パターンを順に試し、最初にヒットした方式の結果を採用する
-    (1つのテンプレート内で書式が混在することは想定していない)。
-    どちらにも一致しない藩に当たった場合は、その藩のwikitextを見て
-    パターンをもう一つ追加する運用を想定している。
+    <small>年-年</small> に加え、単年(<small>1866</small>)と、再任などで
+    1つの <small> に複数の期間が入る形(<small>1866-1868,1868</small>)に対応する。
+    複数期間は期間ごとに1件ずつ(出現順に)返す。
+    解釈できなかった <small> は LAST_PARSE_WARNINGS に残し、呼び出し側が表示する
+    (黙って落とすと、藩主が抜けたことに気づけないため)。
+    <small> 形式が1件も無い場合は、（年-年）形式にフォールバックする。
     """
-    for pattern in _LINK_YEAR_PATTERNS:
-        matches = pattern.findall(wikitext)
-        if matches:
-            return [
-                {"title": title.strip(), "start_year": int(start), "end_year": int(end)}
-                for title, start, end in matches
-            ]
-    return []
+    LAST_PARSE_WARNINGS.clear()
+    results: list[dict] = []
+    for m in _SMALL_RE.finditer(wikitext):
+        title, body = m.group(1).strip(), m.group(2)
+        periods = _parse_periods(body)
+        if periods is None:
+            LAST_PARSE_WARNINGS.append(f"[[{title}]]<small>{body.strip()}</small> を年として解釈できませんでした")
+            continue
+        for start, end in periods:
+            if start is None or end is None:
+                LAST_PARSE_WARNINGS.append(
+                    f"[[{title}]] は{'開始' if start is None else '終了'}年がありません"
+                    f"(取れた年のみ P580/P582 に付与します): {start}-{end}")
+            results.append({"title": title, "start_year": start, "end_year": end})
+    if results:
+        return results
+
+    # フォールバック: （1622-1628） 形式
+    pattern = re.compile(
+        r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]\s*[（(]\s*(\d{3,4})\s*[-–〜]\s*(\d{3,4})\s*[）)]"
+    )
+    return [
+        {"title": t.strip(), "start_year": int(a), "end_year": int(b)}
+        for t, a, b in pattern.findall(wikitext)
+    ]
 
 
 # ---------------------------------------------------------------------------
@@ -387,7 +454,7 @@ _WIKILINK_RE = re.compile(r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
 # まとめて書かれているケース全般に対応する汎用正規表現。
 # ラベルは「父」「養父」だけでなく「叔父」「兄」等の任意の続柄も拾う
 # (これらは自動でプロパティに変換せず、人間のレビュー対象として報告する)。
-_LABELED_RELATION_RE = re.compile(r"([一-龥]{1,3})[:：・]\s*\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
+_LABELED_RELATION_RE = re.compile(r"([一-龥]{1,3})[:：・]\s*(?:'{2,5})?\[\[([^\]|]+)(?:\|[^\]]*)?\]\]")
 
 
 def extract_person_name(value: str) -> str | None:
@@ -508,6 +575,41 @@ def extract_template_params(wikitext: str, template_names: list[str]) -> dict[st
         return params
 
 
+# 続柄のラベル自体がリンクになっている書き方(例: "[[父]]：[[伊達重村]]、[[母]]：...")が
+# ある。そのままだと「ラベル：[[人物]]」の正規表現に合わず父を取りこぼしたり、最初のリンク
+# "[[父]]" を人名と取り違えたりする(20藩で74件)。ラベルのリンクは外して素の語にそろえる。
+_KINSHIP_LABEL_LINK_RE = re.compile(
+    r"\[\[(父親|母親|父|母|養父|養母|実父|実母|義父|義母|叔父|伯父|祖父|祖母|兄|弟|姉|妹|娘|子|養子|嫡子|孫|甥)"
+    r"(?:\|[^\]]*)?\]\]"
+)
+
+
+_KINSHIP_LABEL_ALIAS = {"父親": "父", "母親": "母", "実父親": "実父"}
+
+
+def _strip_kinship_label_links(text: str) -> str:
+    return _KINSHIP_LABEL_LINK_RE.sub(
+        lambda m: _KINSHIP_LABEL_ALIAS.get(m.group(1), m.group(1)), text
+    )
+
+
+# 「養父：佐竹義格」のようにラベルの後の人名にリンクが付いていない書き方がある。
+# リンク付きの抽出で拾えなかった場合に限り、次の区切り(、 , <br> 括弧 改行)までを人名として拾う。
+_PLAIN_LABEL_RE = re.compile(
+    r"(養父|実父|(?<![養実義叔伯祖])父)[:：]\s*(?:'{2,5})?([^、,<>\[\]\n（()'：:]{2,20}?)(?:'{2,5})?(?=[、,<（(\n]|$)"
+)
+
+
+def _extract_plain_label_names(text: str) -> dict:
+    found = {}
+    for label, name in _PLAIN_LABEL_RE.findall(text):
+        name = name.strip()
+        label = "父" if label == "実父" else label
+        if name and name not in ("不明", "なし") and label not in found:
+            found[label] = name
+    return found
+
+
 def extract_family_fields(wikitext: str) -> dict:
     """
     人物記事のInfoboxから父・養父を抽出する。
@@ -536,6 +638,8 @@ def extract_family_fields(wikitext: str) -> dict:
     params = extract_template_params(wikitext, _BIOGRAPHY_INFOBOX_TEMPLATE_NAMES)
     if params is None:
         return {"father": None, "adoptive_father": None, "other_relations": []}
+
+    params = {k: _strip_kinship_label_links(v) for k, v in params.items()}
 
     candidates = []
     if "父母" in params:
@@ -567,6 +671,20 @@ def extract_family_fields(wikitext: str) -> dict:
             if adoptive_father is None:
                 adoptive_father = plain["adoptive_father"]
 
+    # プレーン列挙の解析が「父：佐竹義長」とラベルごと拾ってしまった値は捨てて、下の抽出に任せる
+    if father and re.search(r"[:：]", father):
+        father = None
+    if adoptive_father and re.search(r"[:：]", adoptive_father):
+        adoptive_father = None
+
+    # リンク無しの書き方(例: 養父：佐竹義格)で、上で拾えなかった父・養父を補う
+    for text in candidates:
+        plain_labeled = _extract_plain_label_names(text)
+        if father is None and "父" in plain_labeled:
+            father = plain_labeled["父"]
+        if adoptive_father is None and "養父" in plain_labeled:
+            adoptive_father = plain_labeled["養父"]
+
     # 「父母」「親族」で何も見つからなかった場合のみ、他のフィールド名で
     # 書かれているケースへの保険として全フィールドを連結して探す
     # (見つかったのに二重に走査すると同じ関係を重複計上してしまうため)
@@ -593,7 +711,20 @@ Q_ADOPTIVE_FATHER_IN_LAW = "Q13204680"  # 義父(婿養子の場合、上記に�
 Q_ADOPTED_CHILD = "Q20746725"          # 養子(養親側から見た逆方向。全ケース共通)
 
 
-def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[str]], list[str]]:
+# Infoboxの欄に人名ではなく続柄の語そのもの(「父」等)が入っているページがあり、
+# それがWikipedia記事/Wikidata項目(例: Q54553304, Q7565)に解決されて、
+# 誤ったP22/P40を生成する不具合があった(20藩で74件)。続柄の語は人名として扱わない。
+_GENERIC_KINSHIP_WORDS = {
+    "父", "父親", "実父", "養父", "義父", "母", "母親", "養母", "実母", "子", "養子", "嫡子",
+    "兄", "弟", "姉", "妹", "叔父", "伯父", "祖父", "祖母", "孫", "甥", "従兄弟", "従兄", "従弟",
+    "親", "親族", "家族", "不明", "なし", "-", "―", "？", "?",
+}
+
+
+def build_family_relation_draft(
+    officeholders: list[dict],
+    new_persons: list[dict] | None = None,
+) -> tuple[list[list[str]], list[str]]:
     """
     各在職者のWikipedia記事Infoboxを参照し、父・養父の関係をドラフトとして
     組み立てる。
@@ -627,10 +758,16 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
     無い人物(赤リンク)でも、Wikidata側だけ単独で項目があるケースを
     ラベル検索で拾えるようにしている。
 
+    Wikidata項目が見つからない父は、new_persons(リストを渡した場合のみ)に
+    作成候補として追記する(run_draft_family等が new_persons_all.tsv にまとめて出力する)。
+    養父は、初代(ordinal==1)の養父のみ作成候補にする。初代以外の養父は
+    項目を作らず、養子関係の行も生成しない(方針: 初代以外の養父の項目は不要)。
+
     戻り値: (QuickStatementsコマンド列, レビュー用の説明行のリスト)
     """
     commands: list[list[str]] = []
     report: list[str] = []
+    father_qid_of: dict[int, str | None] = {}  # officeholders上の添字 -> 実父QID(判明分のみ)
 
     for i, holder in enumerate(officeholders):
         title, person_qid = holder["title"], holder["qid"]
@@ -643,6 +780,12 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
         time.sleep(1.0)  # APIへの配慮(429対策でリトライも入れたが、間隔自体も広げた)
 
         fields = extract_family_fields(wikitext)
+        for _key, _label in (("father", "父"), ("adoptive_father", "養父")):
+            _v = fields[_key]
+            if _v is not None and _v.strip() in _GENERIC_KINSHIP_WORDS:
+                report.append(f"[{title}] ★要確認: Infoboxの{_label}欄に人名ではなく「{_v}」とだけ書かれていたため無視しました。"
+                               f"記事を見て手動で確認してください。")
+                fields[_key] = None
 
         if fields["father"] is None and fields["adoptive_father"] is None and not fields["other_relations"]:
             report.append(f"[{title}] Infoboxから親族関係を抽出できませんでした。"
@@ -653,12 +796,19 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
             father_qid = resolve_person_qid(fields["father"])
             time.sleep(1.0)
             if father_qid:
+                father_qid_of[i] = father_qid
                 commands.append([person_qid, "P22", father_qid])
                 commands.append([father_qid, "P40", person_qid])
                 report.append(f"[{title}] 父={fields['father']}({father_qid}) -> P22/P40を生成")
             else:
-                report.append(f"[{title}] 父={fields['father']} のWikidata項目が見つかりません"
-                               f"(Wikipedia記事・Wikidataラベル検索とも該当なし)。新規作成してから再実行してください。")
+                if new_persons is not None:
+                    new_persons.append({"name": fields["father"], "role": "father",
+                                         "child_title": title, "child_qid": person_qid})
+                    report.append(f"[{title}] 父={fields['father']} のWikidata項目が見つかりません。"
+                                   f"新規作成コマンドを new_persons_all.tsv に出力しました(投入後に --family-only で再実行してください)。")
+                else:
+                    report.append(f"[{title}] 父={fields['father']} のWikidata項目が見つかりません"
+                                   f"(Wikipedia記事・Wikidataラベル検索とも該当なし)。新規作成してから再実行してください。")
 
         adoptive_name = fields["adoptive_father"]
         adoptive_qid = None
@@ -694,11 +844,27 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
                     report.append(f"[{title}] 実父={fields['father']} のWikidata項目が見つからないため、"
                                    f"先代と同一人物かどうか判別できません。養子関係の補完は行いません。"
                                    f"実父の項目を作成してから再実行するか、手動で確認してください。")
+                elif predecessor["qid"] == person_qid:
+                    report.append(f"[{title}] 先代と同一人物(再任・藩知事就任など)のため、養子関係の補完は行いません。")
+                elif father_qid is None:
+                    report.append(f"[{title}] ★要確認: Infoboxに実父の記載が無いため、先代との関係は不明です。"
+                                   f"養子関係の補完は行いません。手動で確認してください。")
+                elif father_qid_of.get(i - 1) == father_qid:
+                    report.append(f"[{title}] 先代({predecessor['title']})と実父が同じ(兄弟)なので、"
+                                   f"養子関係の補完は行いません。")
                 elif father_qid != predecessor["qid"]:
+                    # 28組の実地確認で、祖父→孫の継承・別系統の同姓・兄弟(養父を共有)などを
+                    # 養子と誤判定する例が見つかったため、コマンドは生成せず報告のみにした。
+                    report.append(f"[{title}] ★要確認: 実父が先代({predecessor['title']})と一致しません。"
+                                   f"養子の可能性がありますが、祖父→孫の継承や別系統の同姓の可能性もあるため、"
+                                   f"コマンドは生成していません。記事で確認して手動で追加してください。")
+                    adoptive_name = None
+                    adoptive_qid = None
+                if False:
                     adoptive_name = predecessor["title"]
                     adoptive_qid = predecessor["qid"]
                     report.append(f"[{title}] 実父が先代({predecessor['title']})と一致しないため、"
-                                   f"先代を養父として補完しました(Infoboxに養父の明記なし)。")
+                                   f"先代を養父として補完しました(Infoboxに養父の明記なし・推定のため要確認)。")
 
         if adoptive_name:
             if adoptive_qid:
@@ -706,8 +872,18 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
                 commands.append([adoptive_qid, "P1038", person_qid, "P1039", Q_ADOPTED_CHILD])
                 report.append(f"[{title}] 養父={adoptive_name}({adoptive_qid}) -> P1038/P1039(養親)を生成")
             else:
-                report.append(f"[{title}] 養父={adoptive_name} のWikidata項目が見つかりません"
-                               f"(Wikipedia記事・Wikidataラベル検索とも該当なし)。新規作成してから再実行してください。")
+                if holder["ordinal"] != 1:
+                    report.append(f"[{title}] 養父={adoptive_name} のWikidata項目は見つかりませんが、"
+                                   f"初代以外の養父は項目を作成しない方針のため、養子関係は生成しません。")
+                elif new_persons is not None:
+                    new_persons.append({"name": adoptive_name, "role": "adoptive_father",
+                                         "child_title": title, "child_qid": person_qid})
+                    report.append(f"[{title}] 養父={adoptive_name} のWikidata項目が見つかりません。"
+                                   f"初代の養父のため、新規作成コマンドを new_persons_all.tsv に出力しました"
+                                   f"(投入後に --family-only で再実行してください)。")
+                else:
+                    report.append(f"[{title}] 養父={adoptive_name} のWikidata項目が見つかりません"
+                                   f"(Wikipedia記事・Wikidataラベル検索とも該当なし)。新規作成してから再実行してください。")
 
         for label, name in fields["other_relations"]:
             if fields["father"] is None and fields["adoptive_father"] is None:
@@ -715,6 +891,77 @@ def build_family_relation_draft(officeholders: list[dict]) -> tuple[list[list[st
                                f"コマンドは生成していません。関係の種類(P1039の値)を人間が判断のうえ、手動で追加してください。")
 
     return commands, report
+
+
+def _label_without_disambiguation(name: str) -> str:
+    """「松平信明 (三河吉田藩主)」のような曖昧さ回避の括弧を除いた、Wikidataラベル用の名前。"""
+    return re.sub(r"\s*[（(][^）)]*[）)]\s*$", "", name).strip()
+
+
+def build_new_person_commands(new_persons: list[dict]) -> list[list[str]]:
+    """
+    Wikidata項目が無かった父(と初代の養父)を新規作成するコマンド列を作る。
+    値の位置に LAST は使わない(赤穂藩で422エラーになったため)。LASTは主語のみ。
+    子の側へのP22/養子関係は、投入後に draft-family を再実行すると
+    ラベル検索で新項目が見つかり、通常の経路で生成される。
+    同一人物が複数の藩主の父になっている場合は、1項目にまとめて子を全員P40に入れる。
+    説明文は「<子>の父」とし、ラベル+説明の組を他の項目と重複させない。
+    """
+    grouped: dict[tuple[str, str], list[dict]] = {}
+    for np_ in new_persons:
+        grouped.setdefault((np_["name"], np_["role"]), []).append(np_)
+    commands: list[list[str]] = []
+    for (name, role), entries in grouped.items():
+        label = _label_without_disambiguation(name)
+        children = [e["child_title"] for e in entries]
+        relation = "父" if role == "father" else "養父"
+        desc = f"{_label_without_disambiguation(children[0])}の{relation}"
+        commands.append(["CREATE"])
+        commands.append(["LAST", "Lja", f'"{label}"'])
+        commands.append(["LAST", "Dja", f'"{desc}"'])
+        commands.append(["LAST", "P31", Q_HUMAN])
+        commands.append(["LAST", "P21", Q_MALE])
+        for e in entries:
+            if role == "father":
+                commands.append(["LAST", "P40", e["child_qid"]])
+            else:
+                commands.append(["LAST", "P1038", e["child_qid"], "P1039", Q_ADOPTED_CHILD])
+    return commands
+
+
+NEW_PERSONS_ALL_PATH = "new_persons_all.tsv"
+
+
+def write_new_persons_tsv(han_title: str, new_persons: list[dict]) -> str | None:
+    """
+    新規作成が必要な人物を <藩名>_new_persons.json に保存する(空なら空リストで上書き)。
+    実際に投入するTSVは全藩分を1ファイルにまとめた new_persons_all.tsv で、
+    merge_new_persons() が全藩のJSONから作り直す。JSONを毎回上書きするのは、
+    項目作成後の再実行で「作成不要」になった藩の古い候補が残って、
+    二重に作成されてしまうのを防ぐため。戻り値は作成が必要なときのみ new_persons_all.tsv のパス。
+    """
+    import json
+    with open(f"{han_title}_new_persons.json", "w", encoding="utf-8") as f:
+        json.dump(new_persons, f, ensure_ascii=False, indent=1)
+    merge_new_persons()
+    return NEW_PERSONS_ALL_PATH if new_persons else None
+
+
+def merge_new_persons(out_path: str = NEW_PERSONS_ALL_PATH) -> int:
+    """
+    カレントフォルダの *_new_persons.json をすべて集め、同一人物(名前+役割)は1項目に
+    まとめて、1つのQuickStatements用TSV(new_persons_all.tsv)に書き出す。
+    戻り値は作成する人数。0人のときは空のファイルになる。
+    """
+    import glob
+    import json
+    merged: list[dict] = []
+    for path in sorted(glob.glob("*_new_persons.json")):
+        with open(path, encoding="utf-8") as f:
+            merged += json.load(f)
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(commands_to_tsv(build_new_person_commands(merged)))
+    return len({(m["name"], m["role"]) for m in merged})
 
 
 # ---------------------------------------------------------------------------
@@ -823,6 +1070,8 @@ def resolve_officeholders(han_title: str) -> list[dict]:
     print(f"Template:{han_title}主 を取得・パース中...")
     wikitext = get_template_wikitext(han_title)
     officeholders_raw = parse_officeholders_with_years(wikitext)
+    for w in LAST_PARSE_WARNINGS:
+        print(f"  !! 警告(年の解析): {w}")
     print(f"  -> {len(officeholders_raw)} 名を抽出:")
     for h in officeholders_raw:
         print(f"     {h['title']}: {h['start_year']}-{h['end_year']}")
@@ -886,6 +1135,8 @@ def resolve_officeholders_from_tsv(han_title: str, position_tsv_path: str) -> li
     print(f"Template:{han_title}主 を取得・パース中...")
     wikitext = get_template_wikitext(han_title)
     officeholders_raw = parse_officeholders_with_years(wikitext)
+    for w in LAST_PARSE_WARNINGS:
+        print(f"  !! 警告(年の解析): {w}")
     print(f"  -> {len(officeholders_raw)} 名を抽出")
     if not officeholders_raw:
         raise SystemExit(f"在職者を1件も抽出できませんでした: Template:{han_title}主")
@@ -1006,7 +1257,9 @@ def run_draft_family(han_title: str) -> None:
     officeholders = resolve_officeholders(han_title)
 
     print(f"[2/2] 各在職者の記事から父・養父を抽出中...")
-    commands, report = build_family_relation_draft(officeholders)
+    new_persons: list[dict] = []
+    commands, report = build_family_relation_draft(officeholders, new_persons)
+    new_path = write_new_persons_tsv(han_title, new_persons)
 
     tsv = commands_to_tsv(commands)
     tsv_path = f"{han_title}_family_draft.tsv"
@@ -1023,7 +1276,10 @@ def run_draft_family(han_title: str) -> None:
     print(f"レビュー用レポートを {report_path} に保存しました。")
     print("\n【重要】これは投入前に必ず人間によるレビューが必要なドラフトです:")
     print("  - 養父の関係はすべて「養親」で統一しており、婿養子かどうかの判別は行っていません。")
-    print("  - Wikidata項目が見つからなかった父・養父は、新規作成してから再実行してください。")
+    if new_path:
+        print(f"  - 項目が無かった父(と初代の養父)の作成コマンドを {new_path}(全藩分を1ファイルに集約)に保存しました。")
+        print(f"    QuickStatementsに投入したあと、python run_batch_prepare.py --force --family-only {han_title} を実行すると、")
+        print("    新項目が見つかって子側のP22等が生成されます(反映に数分かかる場合があります)。")
 
 
 # ---------------------------------------------------------------------------
@@ -1075,7 +1331,11 @@ def run_prepare_han(han_title: str, province: str) -> None:
         f.write(position_tsv)
 
     print(f"[4/4] 父・養父関係をドラフト生成中...")
-    family_commands, family_report = build_family_relation_draft(officeholders)
+    new_persons: list[dict] = []
+    family_commands, family_report = build_family_relation_draft(officeholders, new_persons)
+    new_path = write_new_persons_tsv(han_title, new_persons)
+    if new_path:
+        print(f"  -> 新規作成が必要な父: {new_path}")
     family_tsv = commands_to_tsv(family_commands)
     family_tsv_path = f"{han_title}_family_draft.tsv"
     with open(family_tsv_path, "w", encoding="utf-8") as f:
@@ -1141,6 +1401,11 @@ def parse_args() -> argparse.Namespace:
     )
     p3.add_argument("han_title", help="藩のWikipedia記事タイトル(例: 小城藩)")
 
+    sub.add_parser(
+        "merge-new-persons",
+        help="全藩の <藩名>_new_persons.json を1つの new_persons_all.tsv にまとめ直す",
+    )
+
     return parser.parse_args()
 
 
@@ -1154,6 +1419,9 @@ def main() -> None:
         run_add_person_statements(args.han_title, args.position_qid, args.position_tsv)
     elif args.command == "draft-family":
         run_draft_family(args.han_title)
+    elif args.command == "merge-new-persons":
+        n = merge_new_persons()
+        print(f"{n}人分を {NEW_PERSONS_ALL_PATH} に書き出しました。")
 
 
 if __name__ == "__main__":
