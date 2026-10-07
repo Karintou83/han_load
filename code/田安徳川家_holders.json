@@ -1,0 +1,64 @@
+{
+ "family": "田安徳川家",
+ "family_qid": "Q11576489",
+ "template_qid": "Q18003125",
+ "category_qid": "Q10188021",
+ "holders": [
+  {
+   "title": "徳川宗武",
+   "qid": "Q2439046",
+   "ordinal": 1,
+   "start_year": 1731,
+   "end_year": 1771
+  },
+  {
+   "title": "徳川治察",
+   "qid": "Q7813715",
+   "ordinal": 2,
+   "start_year": 1771,
+   "end_year": 1774
+  },
+  {
+   "title": "徳川斉匡",
+   "qid": "Q3530491",
+   "ordinal": 3,
+   "start_year": 1787,
+   "end_year": 1836
+  },
+  {
+   "title": "徳川斉荘",
+   "qid": "Q3530492",
+   "ordinal": 4,
+   "start_year": 1836,
+   "end_year": 1839
+  },
+  {
+   "title": "徳川慶頼",
+   "qid": "Q7813724",
+   "ordinal": 5,
+   "start_year": 1839,
+   "end_year": 1863
+  },
+  {
+   "title": "徳川寿千代",
+   "qid": "Q788276",
+   "ordinal": 6,
+   "start_year": 1863,
+   "end_year": 1865
+  },
+  {
+   "title": "徳川家達",
+   "qid": "Q672741",
+   "ordinal": 7,
+   "start_year": 1865,
+   "end_year": 1868
+  },
+  {
+   "title": "徳川慶頼",
+   "qid": "Q7813724",
+   "ordinal": 8,
+   "start_year": 1868,
+   "end_year": 1871
+  }
+ ]
+}

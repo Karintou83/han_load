@@ -1,0 +1,96 @@
+{
+ "family": "一橋徳川家",
+ "family_qid": "Q10863984",
+ "template_qid": "Q17370742",
+ "category_qid": "Q9539475",
+ "holders": [
+  {
+   "title": "徳川宗尹",
+   "qid": "Q3530490",
+   "ordinal": 1,
+   "row": 1,
+   "start_year": 1735,
+   "end_year": 1764
+  },
+  {
+   "title": "徳川治済",
+   "qid": "Q11490290",
+   "ordinal": 2,
+   "row": 2,
+   "start_year": 1764,
+   "end_year": 1799
+  },
+  {
+   "title": "徳川斉敦",
+   "qid": "Q7813722",
+   "ordinal": 3,
+   "row": 3,
+   "start_year": 1799,
+   "end_year": 1816
+  },
+  {
+   "title": "徳川斉礼",
+   "qid": "Q11490285",
+   "ordinal": 4,
+   "row": 4,
+   "start_year": 1816,
+   "end_year": 1830
+  },
+  {
+   "title": "徳川斉位",
+   "qid": "Q11490283",
+   "ordinal": 5,
+   "row": 5,
+   "start_year": 1830,
+   "end_year": 1837
+  },
+  {
+   "title": "徳川慶昌",
+   "qid": "Q7005186",
+   "ordinal": 6,
+   "row": 6,
+   "start_year": 1837,
+   "end_year": 1838
+  },
+  {
+   "title": "徳川慶壽",
+   "qid": "Q11490280",
+   "ordinal": 7,
+   "row": 7,
+   "start_year": 1838,
+   "end_year": 1847
+  },
+  {
+   "title": "徳川昌丸",
+   "qid": "Q6636848",
+   "ordinal": 8,
+   "row": 8,
+   "start_year": 1847,
+   "end_year": 1847
+  },
+  {
+   "title": "徳川慶喜",
+   "qid": "Q287657",
+   "ordinal": 9,
+   "row": 9,
+   "start_year": 1847,
+   "end_year": 1859
+  },
+  {
+   "title": "徳川慶喜",
+   "qid": "Q287657",
+   "ordinal": 9,
+   "row": 10,
+   "start_year": 1862,
+   "end_year": 1866
+  },
+  {
+   "title": "徳川茂徳",
+   "qid": "Q946037",
+   "ordinal": 10,
+   "row": 11,
+   "start_year": 1866,
+   "end_year": 1871
+  }
+ ]
+}
