@@ -1,0 +1,37 @@
+OK 	鳥取藩	記事=OK	Template=OK	Category=OK	藩QID=Q905521
+OK 	鹿野藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863418
+OK 	鹿奴藩	記事=OK	Template=OK	Category=OK	別名候補 Template:鳥取東館新田藩主=なし	藩QID=Q123997456
+OK 	若桜藩	記事=OK	Template=OK	Category=OK	別名候補 Template:鳥取西館新田藩主=なし	藩QID=Q12832700
+要確認	米子藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863548
+要確認	倉吉藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863302
+要確認	黒坂藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863360
+要確認	矢橋藩	記事=OK	Template=OK	Category=なし	別名候補 Template:八橋藩主=なし	藩QID=Q10863547
+要確認	松江新田藩	記事=リダイレクト→松江藩	Template=OK	Category=なし	藩QID=None
+OK 	美作勝山藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863515
+要確認	津山新田藩	記事=リダイレクト→津山藩	Template=なし	Category=なし	藩QID=None
+要確認	美作宮川藩	記事=リダイレクト→津山藩	Template=なし	Category=なし	藩QID=None
+要確認	吉永藩	記事=OK	Template=OK	Category=なし	藩QID=Q109356827
+OK 	津和野藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034561
+OK 	岡山藩	記事=OK	Template=OK	Category=OK	藩QID=Q903497
+要確認	児島藩	記事=OK	Template=OK	Category=なし	藩QID=Q109358278
+OK 	新見藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034507
+OK 	備中松山藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034422
+OK 	成羽藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863450
+要確認	浅尾藩	記事=OK	Template=OK	Category=なし	藩QID=Q11557068
+OK 	足守藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863289
+OK 	岡田藩	記事=OK	Template=OK	Category=OK	藩QID=Q1045052
+OK 	庭瀬藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034514
+OK 	生坂藩	記事=OK	Template=OK	Category=OK	藩QID=Q123110957
+OK 	鴨方藩	記事=OK	Template=OK	Category=OK	藩QID=Q123110960
+要確認	西江原藩	記事=リダイレクト→赤穂藩	Template=OK	Category=なし	藩QID=Q10856274
+OK 	三次藩	記事=OK	Template=OK	Category=OK	藩QID=Q109359691
+OK 	備後福山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:福山藩主=なし	藩QID=Q909278
+OK 	広島藩	記事=OK	Template=OK	Category=OK	藩QID=Q1141203
+OK 	広島新田藩	記事=OK	Template=OK	Category=OK	藩QID=Q109359721
+OK 	岩国藩	記事=OK	Template=OK	Category=OK	藩QID=Q839263
+OK 	徳山藩	記事=OK	Template=OK	Category=OK	藩QID=Q903518
+OK 	長州藩	記事=OK	Template=OK	Category=OK	別名候補 Template:萩藩主=なし	藩QID=Q876267
+OK 	長府藩	記事=OK	Template=OK	Category=OK	藩QID=Q903430
+OK 	清末藩	記事=OK	Template=OK	Category=OK	藩QID=Q613073
+
+要確認: 11/35藩

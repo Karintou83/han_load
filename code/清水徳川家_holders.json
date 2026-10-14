@@ -1,0 +1,62 @@
+{
+ "family": "清水徳川家",
+ "family_qid": "Q11560958",
+ "template_qid": "Q18002851",
+ "category_qid": "Q10140946",
+ "holders": [
+  {
+   "title": "徳川重好",
+   "qid": "Q3530495",
+   "ordinal": 1,
+   "row": 1,
+   "start_year": 1758,
+   "end_year": 1795,
+   "vacancy_before": false
+  },
+  {
+   "title": "徳川敦之助",
+   "qid": "Q18002854",
+   "ordinal": 2,
+   "row": 2,
+   "start_year": 1798,
+   "end_year": 1799,
+   "vacancy_before": true
+  },
+  {
+   "title": "徳川斉順",
+   "qid": "Q6993203",
+   "ordinal": 3,
+   "row": 3,
+   "start_year": 1805,
+   "end_year": 1816,
+   "vacancy_before": true
+  },
+  {
+   "title": "徳川斉明",
+   "qid": "Q11490284",
+   "ordinal": 4,
+   "row": 4,
+   "start_year": 1816,
+   "end_year": 1827,
+   "vacancy_before": false
+  },
+  {
+   "title": "徳川斉彊",
+   "qid": "Q6993155",
+   "ordinal": 5,
+   "row": 5,
+   "start_year": 1827,
+   "end_year": 1846,
+   "vacancy_before": false
+  },
+  {
+   "title": "徳川昭武",
+   "qid": "Q3530485",
+   "ordinal": 6,
+   "row": 6,
+   "start_year": 1866,
+   "end_year": 1868,
+   "vacancy_before": true
+  }
+ ]
+}

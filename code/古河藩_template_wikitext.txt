@@ -1,0 +1,74 @@
+{{Navbox
+|name=古河藩主
+|title={{#if:{{{1|}}}|{{{1|}}}|}}[[古河藩]]{{#if:{{{2|}}}|{{{2|}}}|}}藩主 {{#if:{{{3|}}}|（{{{3|}}}）|}}
+|bodyclass=hlist hlist-pipe
+|group1=小笠原家
+|list1=
+*[[小笠原秀政]]<span style="font-size:smaller">1590-1601</span>
+*[[信濃国|信濃]][[信濃飯田藩|飯田藩]]に転封
+|group2=戸田松平家
+|list2=
+*[[松平康長]]<span style="font-size:smaller">1602-1612</span>
+*[[常陸国|常陸]][[笠間藩]]に転封
+|group3=小笠原家
+|list3=
+*[[小笠原信之]]<span style="font-size:smaller">1612-1614</span>
+*[[小笠原政信]]<span style="font-size:smaller">1614-1619</span>
+*[[下総国|下総]][[関宿藩]]に転封
+|group4=奥平家
+|list4=
+*[[奥平忠昌]]<span style="font-size:smaller">1619-1622</span>
+*[[宇都宮城釣天井事件]]の影響で、[[下野国|下野]][[宇都宮藩]]に再封
+|group5=永井家
+|list5=
+*[[永井直勝]]<span style="font-size:smaller">1622-1625</span>
+*[[永井尚政]]<span style="font-size:smaller">1626-1633</span>
+*[[山城国|山城]][[淀藩]]に転封
+|group6=土井家
+|list6=
+*[[土井利勝]]<span style="font-size:smaller">1633-1644</span>
+*[[土井利隆]]<span style="font-size:smaller">1644-1658</span>
+*[[土井利重]]<span style="font-size:smaller">1658-1673</span>
+*[[土井利久]]<span style="font-size:smaller">1673-1675</span>
+*[[土井利益]]<span style="font-size:smaller">1675-1681</span>
+*[[志摩国|志摩]][[鳥羽藩]]に転封
+|group7=堀田家
+|list7=
+*[[堀田正俊]]<span style="font-size:smaller">1681-1684</span>
+*[[堀田正仲]]<span style="font-size:smaller">1684-1685</span>
+*[[出羽国|出羽]][[山形藩]]に転封
+|group8=藤井松平家
+|list8=
+*[[松平信之]]<span style="font-size:smaller">1685-1686</span>
+*[[松平忠之]]<span style="font-size:smaller">1686-1693</span>
+*忠之が発狂し、改易
+|group9=大河内松平家
+|list9=
+*[[松平信輝]]<span style="font-size:smaller">1694-1709</span>
+*[[松平信祝]]<span style="font-size:smaller">1709-1712</span>
+*[[三河国|三河]][[三河吉田藩|吉田藩]]に転封
+|group10=本多家
+|list10=
+*[[本多忠良]]<span style="font-size:smaller">1712-1751</span>
+*[[本多忠敞]]<span style="font-size:smaller">1751-1759</span>
+*[[石見国|石見]][[浜田藩]]に転封
+|group11=松井松平家
+|list11=
+*[[松平康福]]<span style="font-size:smaller">1759-1762</span>
+*三河[[岡崎藩]]に転封
+|group12=土井家
+|list12=
+*[[土井利里]]<span style="font-size:smaller">1762-1777</span>
+*[[土井利見]]<span style="font-size:smaller">1777</span>
+*[[土井利厚]]<span style="font-size:smaller">1777-1822</span>
+*[[土井利位]]<span style="font-size:smaller">1822-1848</span>
+*[[土井利亨]]<span style="font-size:smaller">1848</span>
+*[[土井利則]]<span style="font-size:smaller">1848-1867</span>
+*[[土井利与]]<span style="font-size:smaller">1867-1871</span>
+*廃藩置県
+}}<noinclude>
+==用法==
+<nowiki>{{古河藩主|家名|代数|在任}}</nowiki>
+[[Category:歴代藩主のテンプレート|こか]]
+[[Category:古河藩主|T]]
+</noinclude>

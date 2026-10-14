@@ -1,0 +1,26 @@
+[
+ {
+  "name": "前田基光",
+  "role": "father",
+  "child_title": "前田玄以",
+  "child_qid": "Q6729101"
+ },
+ {
+  "name": "松平庸倫",
+  "role": "father",
+  "child_title": "松平信直",
+  "child_qid": "Q8515956"
+ },
+ {
+  "name": "松平庸孝",
+  "role": "father",
+  "child_title": "松平信志",
+  "child_qid": "Q8515054"
+ },
+ {
+  "name": "松平庸煕",
+  "role": "father",
+  "child_title": "松平信義 (丹波亀山藩主)",
+  "child_qid": "Q6463687"
+ }
+]

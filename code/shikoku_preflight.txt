@@ -1,0 +1,17 @@
+OK 	丸亀藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863480
+OK 	多度津藩	記事=OK	Template=OK	Category=OK	藩QID=Q109356835
+OK 	徳島藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034557
+要確認	阿波富田藩	記事=OK	Template=なし	Category=OK	藩QID=Q12161918
+要確認	川之江藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863333
+OK 	小松藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863386
+要確認	松山新田藩	記事=OK	Template=OK	Category=なし	藩QID=None
+OK 	大洲藩	記事=OK	Template=OK	Category=OK	藩QID=Q1005251
+OK 	新谷藩	記事=OK	Template=OK	Category=OK	藩QID=Q109357353
+OK 	伊予吉田藩	記事=OK	Template=OK	Category=OK	藩QID=Q114397604
+OK 	宇和島藩	記事=OK	Template=OK	Category=OK	藩QID=Q994102
+OK 	土佐藩	記事=OK	Template=OK	Category=OK	藩QID=Q1189704
+OK 	土佐新田藩	記事=OK	Template=OK	Category=OK	藩QID=Q12162100
+要確認	土佐中村藩	記事=OK	Template=なし	Category=OK	別名候補 Template:中村藩主=OK	藩QID=Q18710354
+要確認	浦戸藩	記事=OK	Template=なし	Category=なし	藩QID=Q17227786
+
+要確認: 5/15藩

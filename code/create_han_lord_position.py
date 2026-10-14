@@ -69,6 +69,47 @@ Q_JAPAN               = "Q17"          # 日本
 Q_EDO_PERIOD          = "Q184963"      # 江戸時代
 
 
+
+# テンプレート名(Template:○○藩主)の「○○藩」と、藩の記事タイトルが食い違う藩のための対応表。
+# キー=テンプレート名側の藩名(han_titleとして渡す名前)、値=藩の実際の記事タイトル。
+# 藩項目のQIDを引くときだけ記事タイトルを使い、ラベル・テンプレート・カテゴリには han_title を使う。
+HAN_ARTICLE_TITLES = {
+    "豊後高田藩": "高田藩 (豊後国)",   # Template:豊後高田藩主 / 記事は曖昧さ回避付き
+    "千束藩": "小倉新田藩",            # Template:千束藩主 / 記事「千束藩」は小倉新田藩へのリダイレクト
+    "富田藩": "阿波富田藩",            # Template:富田藩主 / 記事は「阿波富田藩」(下野富田藩とは別)
+    "中村藩": "土佐中村藩",            # Template:中村藩主 / 記事は「土佐中村藩」(相馬中村藩とは別)
+    "桜井藩": "請西藩",                # 記事「桜井藩」は請西藩へのリダイレクト。同じ根拠地の改称なので藩項目は共有し、藩主役職項目だけ別に作る(請西藩主の後継)
+    "諏訪藩": "高島藩",                # Template:諏訪藩主 / 記事は「高島藩」(信濃国)
+    "高井藩": "松平義行領",            # Template:高井藩主 / 記事「高井藩」は「松平義行領」へのリダイレクト。藩QIDが引けない場合は han_qid_overrides.json に登録
+    "中島藩": "摂津中島藩",            # Template:中島藩主 / 記事は「摂津中島藩」(近畿の --check で、記事「摂津中島藩」のTemplateは中島藩主と判明。要目視確認)
+    "丹波柏原藩": "柏原藩",            # Template:丹波柏原藩主 / 記事「丹波柏原藩」は柏原藩へのリダイレクト
+}
+
+
+def _han_article(han_title: str) -> str:
+    return HAN_ARTICLE_TITLES.get(han_title, han_title)
+
+
+HAN_QID_OVERRIDES_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "han_qid_overrides.json")
+
+
+def _han_qid(han_title: str) -> str | None:
+    """
+    藩項目のQIDを返す。han_qid_overrides.json({"野本藩": "Q123..."})に登録があればそれを優先し、
+    無ければ記事タイトル(HAN_ARTICLE_TITLES適用後)のsitelinkから引く。
+    記事が他の藩へのリダイレクトだったり、記事自体が無い藩(野本藩・東方藩など)は、
+    先に藩項目を新規作成(make_han_items.py)してQIDをこのファイルに登録する。
+    """
+    try:
+        import json
+        with open(HAN_QID_OVERRIDES_PATH, encoding="utf-8") as f:
+            ov = json.load(f)
+        if han_title in ov:
+            return ov[han_title]
+    except FileNotFoundError:
+        pass
+    return title_to_qid(_han_article(han_title))
+
 # ---------------------------------------------------------------------------
 # Wikipedia側:テンプレートのwikitext取得
 # ---------------------------------------------------------------------------
@@ -158,14 +199,21 @@ _LINK_YEAR_PATTERNS = [
 # 例: "1866-1868"(通常) / "1866"(単年) / "1866-1868,1868"(再任を含む複数期間)
 # 単年の記述(阿部正静の "1866" "1868" など)は、開始年=終了年=その年として扱う。
 # "1866-" のように終了年が欠けている場合は、終了年を None のまま返す。
+# <small>年</small> に加え、{{Smaller|年}} / {{small|年}} 形式(Template:人吉藩主で確認)にも対応する。
 _SMALL_RE = re.compile(
-    r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]\s*<small>(.*?)</small>", re.DOTALL
+    r"\[\[([^\]|]+)(?:\|[^\]]*)?\]\]\s*"
+    r"(?:<small>(?P<a>.*?)</small>|\{\{\s*[Ss]maller?\s*\|(?P<b>[^{}]*?)\}\}"
+    r"|<span[^>]*font-size:\s*smaller[^>]*>(?P<c>.*?)</span>)",
+    re.DOTALL,
 )
 _PERIOD_SPLIT_RE = re.compile(r"\s*[,、，/／]\s*")
 _PERIOD_RE = re.compile(r"^(\d{3,4})?\s*(?:([-–〜~－])\s*(\d{3,4})?)?$")
 # 年の直後の補足(1809) / （1809） は無視する(例: 伊達周宗 "1796-1812(1809)")。
 # 補足年の意味はTemplateごとに異なり(隠居・実質的な交代など)、正式な在任期間は括弧の外の年とみなす。
 _PAREN_YEAR_RE = re.compile(r"[（(]\s*\d{3,4}\s*[）)]")
+
+# 在任がこの年より前に終わった人は、藩主として数えない(代数にも含めない)
+MIN_HOLDER_END_YEAR = 1600
 
 # 取り込めなかった <small> を警告するために、解析結果の横に残しておく
 LAST_PARSE_WARNINGS: list[str] = []
@@ -178,7 +226,14 @@ def _parse_periods(text: str) -> list[tuple[int | None, int | None]] | None:
     それぞれ None を返す(P580/P582は取れた側だけ付与される)。
     """
     text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("年", "")  # 「1595年-1596年」形式(Template:烏山藩主・岩富藩主)
     text = _PAREN_YEAR_RE.sub("", text).strip()
+    # 「1602-?」「1624?-1631」「?-?」のように「?」が付く不確実な年への対応:
+    #   年に付く「?」は外して、その年をそのまま採用する(平戸藩での扱いと同じ。九州の前例)。
+    #   「?」だけで年が全く無い期間(「?-?」)は、開始・終了とも不明の期間として残す
+    #   (捨てると、後続の代のP1545(代数)がずれてしまうため)。
+    had_q = bool(re.search(r"[?？]", text))
+    text = re.sub(r"[?？]", "", text).strip()
     periods = []
     for part in _PERIOD_SPLIT_RE.split(text):
         if not part:
@@ -188,6 +243,9 @@ def _parse_periods(text: str) -> list[tuple[int | None, int | None]] | None:
             return None
         start, dash, end = m.groups()
         if start is None and end is None:
+            if had_q:
+                periods.append((None, None))
+                continue
             return None
         if dash is None:
             periods.append((int(start), int(start)))  # 単年
@@ -212,12 +270,19 @@ def parse_officeholders_with_years(wikitext: str) -> list[dict]:
     LAST_PARSE_WARNINGS.clear()
     results: list[dict] = []
     for m in _SMALL_RE.finditer(wikitext):
-        title, body = m.group(1).strip(), m.group(2)
+        title = m.group(1).strip()
+        body = next(g for g in (m.group('a'), m.group('b'), m.group('c')) if g is not None)
         periods = _parse_periods(body)
         if periods is None:
             LAST_PARSE_WARNINGS.append(f"[[{title}]]<small>{body.strip()}</small> を年として解釈できませんでした")
             continue
         for start, end in periods:
+            # 1600年より前に終わった人は藩主として数えない(例: 烏山藩の成田氏長 1595-1596)。
+            # 1600年以降まで在任した人から数える。終了年が無い期間は数える。
+            if end is not None and end < MIN_HOLDER_END_YEAR:
+                LAST_PARSE_WARNINGS.append(
+                    f"[[{title}]] は{end}年に終了(1600年より前)のため藩主として数えません: {start}-{end}")
+                continue
             if start is None or end is None:
                 LAST_PARSE_WARNINGS.append(
                     f"[[{title}]] は{'開始' if start is None else '終了'}年がありません"
@@ -1109,6 +1174,14 @@ def resolve_officeholders(han_title: str) -> list[dict]:
     for h in officeholders_raw:
         print(f"     {h['title']}: {h['start_year']}-{h['end_year']}")
     if not officeholders_raw:
+        # 書式を確認できるよう、取得したwikitextをファイルに残す
+        _dump = f"{han_title}_template_wikitext.txt"
+        try:
+            with open(_dump, "w", encoding="utf-8") as _f:
+                _f.write(wikitext)
+            print(f"  !! 取得したwikitextを {_dump} に保存しました(書式の確認用)。")
+        except OSError:
+            pass
         raise SystemExit(
             "在職者を1件も抽出できませんでした。Template:" + han_title + "主 の実際の"
             "書式を確認し、_LINK_YEAR_PATTERNS に新しいパターンを追加してください"
@@ -1193,7 +1266,7 @@ def resolve_officeholders_from_tsv(han_title: str, position_tsv_path: str) -> li
 
 def run_create_position(han_title: str, province: str) -> None:
     print(f"[1/3] {han_title} のQIDを解決中...")
-    han_qid = title_to_qid(han_title)
+    han_qid = _han_qid(han_title)
     if han_qid is None:
         raise SystemExit(f"{han_title} のWikidata項目が見つかりません。手動で確認してください。")
     print(f"  -> {han_qid}")
@@ -1252,7 +1325,7 @@ def run_add_person_statements(han_title: str, position_qid: str, position_tsv_pa
     position_tsv_path = position_tsv_path or f"{han_title}_position_create.tsv"
 
     print(f"[1/3] {han_title}・Template・CategoryのQIDを解決中...")
-    han_qid = title_to_qid(han_title)
+    han_qid = _han_qid(han_title)
     if han_qid is None:
         raise SystemExit(f"{han_title} のWikidata項目が見つかりません。手動で確認してください。")
     template_qid = title_to_qid(f"Template:{han_title}主")
@@ -1334,7 +1407,7 @@ def run_prepare_han(han_title: str, province: str) -> None:
     QIDを確認したうえで、add-person-statementsを実行すること。
     """
     print(f"[1/4] {han_title} のQIDを解決中...")
-    han_qid = title_to_qid(han_title)
+    han_qid = _han_qid(han_title)
     if han_qid is None:
         raise SystemExit(f"{han_title} のWikidata項目が見つかりません。手動で確認してください。")
     print(f"  -> {han_qid}")

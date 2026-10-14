@@ -1,0 +1,10 @@
+{{Navbox
+|name=岩富藩主
+|title=北条氏[[岩富藩]]{{#if:{{{1|}}}|{{{1|}}}|}}藩主{{#if:{{{2|}}}|({{{2|}}})|}}
+|bodyclass=hlist hlist-pipe
+|list1=
+*[[北条氏勝]]<span style="font-size:smaller">1590年-1611年</span>
+*[[北条氏重]]<span style="font-size:smaller">1611年-1613年</span>
+*[[下野国|下野]][[下野富田藩|富田藩]]に転封、廃藩
+}}<noinclude>
+[[Category:歴代藩主のテンプレート|いわとみ]]</noinclude>

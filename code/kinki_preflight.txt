@@ -1,0 +1,105 @@
+OK 	菰野藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034472
+OK 	伊勢亀山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:亀山藩主=なし	藩QID=Q3034389
+OK 	神戸藩	記事=OK	Template=OK	Category=OK	別名候補 Template:伊勢神戸藩主=なし	藩QID=Q10863345
+OK 	津藩	記事=OK	Template=OK	Category=OK	別名候補 Template:安濃津藩主=なし	藩QID=Q1060551
+要確認	久居藩	記事=リダイレクト→津藩	Template=OK	Category=OK	藩QID=Q109570669
+OK 	八田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863430
+OK 	伊勢西条藩	記事=OK	Template=OK	Category=OK	別名候補 Template:西条藩主=OK	藩QID=Q10863243
+要確認	南林崎藩	記事=リダイレクト→伊勢西条藩	Template=なし	Category=なし	藩QID=None
+要確認	伊勢上野藩	記事=OK	Template=OK	Category=なし	別名候補 Template:上野藩主=なし	藩QID=Q10863237
+要確認	伊勢林藩	記事=リダイレクト→林藩	Template=なし	Category=なし	別名候補 Template:林藩主=OK	藩QID=None
+要確認	雲出藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863358
+要確認	松坂藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863498
+要確認	竹原藩	記事=なし	Template=なし	Category=なし	別名候補 Template:八知藩主=なし	藩QID=None
+要確認	伊勢岩手藩	記事=OK	Template=OK	Category=なし	別名候補 Template:岩手藩主=なし	藩QID=Q10863238
+要確認	田丸藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863456
+要確認	井生藩	記事=なし	Template=なし	Category=なし	藩QID=None
+要確認	伊賀上野藩	記事=OK	Template=OK	Category=なし	別名候補 Template:上野藩主=なし	藩QID=Q10863245
+OK 	鳥羽藩	記事=OK	Template=OK	Category=OK	藩QID=Q1396816
+要確認	朝日山藩	記事=リダイレクト→山形藩	Template=OK	Category=なし	藩QID=None
+OK 	近江宮川藩	記事=OK	Template=OK	Category=OK	別名候補 Template:宮川藩主=OK	藩QID=Q10863290
+要確認	長浜藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863471
+OK 	彦根藩	記事=OK	Template=OK	Category=OK	藩QID=Q1062225
+要確認	彦根新田藩	記事=リダイレクト→彦根藩	Template=OK	Category=なし	藩QID=Q12626275
+OK 	大溝藩	記事=OK	Template=OK	Category=OK	藩QID=Q997403
+要確認	朽木藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863336
+OK 	堅田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863307
+要確認	大森藩	記事=リダイレクト→山形藩	Template=OK	Category=なし	藩QID=None
+OK 	山上藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863537
+OK 	三上藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863474
+OK 	仁正寺藩	記事=OK	Template=OK	Category=OK	別名候補 Template:西大路藩主=なし	藩QID=Q10863425
+OK 	膳所藩	記事=OK	Template=OK	Category=OK	藩QID=Q903503
+OK 	水口藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863504
+要確認	佐和山藩	記事=OK	Template=なし	Category=なし	藩QID=Q10863372
+要確認	近江高島藩	記事=OK	Template=OK	Category=なし	別名候補 Template:高島藩主=なし	藩QID=Q10863293
+要確認	大津藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863316
+OK 	近江小室藩	記事=OK	Template=OK	Category=OK	別名候補 Template:小室藩主=なし	藩QID=Q10863292
+OK 	淀藩	記事=OK	Template=OK	Category=OK	藩QID=Q844014
+要確認	山城長岡藩	記事=リダイレクト→高槻藩	Template=OK	Category=なし	別名候補 Template:長岡藩主=なし	藩QID=Q12589487
+要確認	伏見藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863483
+要確認	御牧藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863494
+OK 	柳生藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863542
+OK 	郡山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:大和郡山藩主=なし	藩QID=Q10863405
+OK 	小泉藩	記事=OK	Template=OK	Category=OK	藩QID=Q1005257
+OK 	柳本藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034568
+要確認	戒重藩	記事=リダイレクト→芝村藩	Template=なし	Category=なし	藩QID=None
+OK 	芝村藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863402
+要確認	櫛羅藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863339
+OK 	宇陀松山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:松山藩主=なし	藩QID=Q3034407
+OK 	高取藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863410
+要確認	興留藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863353
+OK 	竜田藩	記事=OK	Template=OK	Category=OK	別名候補 Template:龍田藩主=なし	藩QID=Q10863399
+要確認	田原本藩	記事=OK	Template=OK	Category=なし	藩QID=Q10425374
+要確認	岸田藩	記事=なし	Template=なし	Category=なし	藩QID=None
+OK 	大和新庄藩	記事=OK	Template=OK	Category=OK	別名候補 Template:新庄藩主=OK	藩QID=Q10863535
+要確認	御所藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863387
+要確認	大和五条藩	記事=OK	Template=OK	Category=なし	別名候補 Template:五条藩主=なし	藩QID=Q10863534
+OK 	紀伊田辺藩	記事=OK	Template=OK	Category=OK	別名候補 Template:田辺藩主=なし	藩QID=Q10863350
+OK 	紀伊新宮藩	記事=OK	Template=OK	Category=OK	別名候補 Template:新宮藩主=なし	藩QID=Q10863346
+OK 	陶器藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863472
+OK 	伯太藩	記事=OK	Template=OK	Category=OK	別名候補 Template:大庭寺藩主=なし	藩QID=Q3034436
+OK 	岸和田藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034469
+要確認	谷川藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863463
+要確認	吉見藩	記事=OK	Template=なし	Category=なし	藩QID=Q10863533
+OK 	丹南藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863422
+OK 	狭山藩	記事=OK	Template=OK	Category=OK	藩QID=Q1073712
+要確認	西代藩	記事=OK	Template=OK	Category=なし	藩QID=Q130288395
+OK 	三田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863363
+OK 	高槻藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863415
+OK 	麻田藩	記事=OK	Template=OK	Category=OK	藩QID=Q1073005
+OK 	尼崎藩	記事=OK	Template=OK	Category=OK	藩QID=Q903474
+要確認	大坂藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863310
+要確認	茨木藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863284
+要確認	摂津中島藩	記事=OK	Template=なし	Category=なし	別名候補 Template:中島藩主=OK	藩QID=Q10863420
+要確認	味舌藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863488
+OK 	福知山藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863513
+OK 	綾部藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863282
+OK 	山家藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863538
+要確認	丹波柏原藩	記事=リダイレクト→柏原藩	Template=OK	Category=OK	別名候補 Template:柏原藩主=なし	藩QID=None
+OK 	篠山藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034520
+OK 	園部藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863377
+OK 	丹波亀山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:亀山藩主=なし	藩QID=Q10854981
+要確認	八上藩	記事=OK	Template=OK	Category=なし	藩QID=Q3034563
+OK 	宮津藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034498
+OK 	丹後田辺藩	記事=OK	Template=OK	Category=OK	別名候補 Template:田辺藩主=なし	別名候補 Template:舞鶴藩主=なし	藩QID=Q10863423
+OK 	山崎藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863539
+OK 	安志藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863256
+OK 	三日月藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863475
+OK 	林田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863453
+OK 	三草藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863479
+OK 	龍野藩	記事=OK	Template=OK	Category=OK	藩QID=Q1012712
+OK 	小野藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863329
+OK 	姫路藩	記事=OK	Template=OK	Category=OK	藩QID=Q1062190
+OK 	福本藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863511
+OK 	播磨新宮藩	記事=OK	Template=OK	Category=OK	別名候補 Template:新宮藩主=なし	藩QID=Q10863389
+OK 	姫路新田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863490
+要確認	平福藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863493
+要確認	清富藩	記事=OK	Template=OK	Category=なし	藩QID=Q30925922
+OK 	出石藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863249
+OK 	豊岡藩	記事=OK	Template=OK	Category=OK	藩QID=Q1004240
+要確認	村岡藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863496
+要確認	八木藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863529
+要確認	竹田藩	記事=OK	Template=なし	Category=なし	藩QID=Q11599375
+要確認	淡路洲本藩	記事=OK	Template=OK	Category=なし	別名候補 Template:洲本藩主=なし	藩QID=Q10863277
+
+要確認: 44/103藩

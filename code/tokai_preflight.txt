@@ -1,0 +1,72 @@
+要確認	駿府藩	記事=OK	Template=OK	Category=なし	別名候補 Template:静岡藩主=なし	藩QID=Q3034530
+OK 	沼津藩	記事=OK	Template=OK	Category=OK	藩QID=Q1005450
+OK 	松長藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863501
+OK 	小島藩	記事=OK	Template=OK	Category=OK	別名候補 Template:駿河小島藩主=なし	藩QID=Q3034398
+OK 	田中藩	記事=OK	Template=OK	Category=OK	別名候補 Template:駿河田中藩主=なし	藩QID=Q420800
+要確認	川成島藩	記事=OK	Template=OK	Category=なし	藩QID=Q10855037
+要確認	興国寺藩	記事=OK	Template=なし	Category=なし	藩QID=Q10863351
+OK 	掛川藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034456
+OK 	浜松藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034440
+OK 	横須賀藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034572
+OK 	相良藩	記事=OK	Template=OK	Category=OK	別名候補 Template:遠江相良藩主=なし	藩QID=Q846704
+要確認	堀江藩	記事=OK	Template=OK	Category=なし	別名候補 Template:遠江堀江藩主=なし	藩QID=Q10863489
+要確認	井伊谷藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863232
+要確認	掛塚藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863335
+要確認	遠江久野藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863464
+OK 	挙母藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034473
+OK 	刈谷藩	記事=OK	Template=OK	Category=OK	別名候補 Template:三河刈谷藩主=なし	藩QID=Q1045776
+要確認	重原藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863406
+要確認	大給藩	記事=リダイレクト→奥殿藩	Template=なし	Category=なし	藩QID=None
+OK 	岡崎藩	記事=OK	Template=OK	Category=OK	藩QID=Q905686
+OK 	西大平藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034508
+要確認	西端藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863461
+OK 	西尾藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034512
+OK 	三河吉田藩	記事=OK	Template=OK	Category=OK	別名候補 Template:吉田藩主=なし	別名候補 Template:豊橋藩主=なし	藩QID=Q858917
+OK 	田原藩	記事=OK	Template=OK	Category=OK	別名候補 Template:三河田原藩主=なし	藩QID=Q3034533
+要確認	作手藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863426
+要確認	新城藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863390
+要確認	畑村藩	記事=リダイレクト→大垣新田藩	Template=なし	Category=なし	藩QID=None
+要確認	足助藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863288
+OK 	伊保藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863235
+OK 	奥殿藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034400
+要確認	三河中島藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863477
+OK 	深溝藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863505
+要確認	形原藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863334
+要確認	大浜藩	記事=OK	Template=OK	Category=なし	藩QID=Q3034411
+要確認	三河水野藩	記事=OK	Template=なし	Category=なし	藩QID=Q10863478
+OK 	犬山藩	記事=OK	Template=OK	Category=OK	藩QID=Q1004357
+要確認	緒川藩	記事=OK	Template=OK	Category=なし	藩QID=Q3034396
+要確認	尾張黒田藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863330
+要確認	清洲藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863342
+OK 	飛騨高山藩	記事=OK	Template=OK	Category=OK	別名候補 Template:高山藩主=なし	藩QID=Q3034448
+OK 	今尾藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863233
+OK 	郡上藩	記事=OK	Template=OK	Category=OK	別名候補 Template:八幡藩主=なし	藩QID=Q10863356
+要確認	岐阜藩	記事=OK	Template=なし	Category=なし	藩QID=Q10863331
+OK 	苗木藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863458
+OK 	大垣藩	記事=OK	Template=OK	Category=OK	藩QID=Q839430
+OK 	加納藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034458
+要確認	加賀野井藩	記事=なし	Template=なし	Category=なし	藩QID=None
+OK 	岩村藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863261
+要確認	揖斐藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863264
+要確認	黒野藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863361
+OK 	大垣新田藩	記事=OK	Template=OK	Category=OK	藩QID=Q10863312
+要確認	福束藩	記事=なし	Template=なし	Category=なし	藩QID=None
+要確認	美濃平塚藩	記事=なし	Template=なし	Category=なし	藩QID=None
+要確認	青野藩	記事=OK	Template=OK	Category=なし	別名候補 Template:美濃青野藩主=なし	藩QID=Q3034383
+要確認	多良藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863436
+要確認	十七条藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863376
+要確認	太田山藩	記事=なし	Template=なし	Category=なし	藩QID=None
+OK 	高富藩	記事=OK	Template=OK	Category=OK	藩QID=Q3034540
+要確認	関藩	記事=OK	Template=OK	Category=なし	別名候補 Template:美濃関藩主=なし	藩QID=Q10863407
+要確認	上有知藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863297
+要確認	岩滝藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863263
+要確認	金山藩	記事=OK	Template=なし	Category=なし	別名候補 Template:美濃金山藩主=なし	藩QID=Q10863357
+要確認	徳野藩	記事=OK	Template=OK	Category=なし	藩QID=Q11490464
+要確認	美濃高松藩	記事=OK	Template=OK	Category=なし	別名候補 Template:松ノ木藩主=なし	別名候補 Template:高松藩 (美濃国)主=なし	藩QID=Q10863523
+要確認	清水藩	記事=OK	Template=OK	Category=なし	別名候補 Template:美濃清水藩主=なし	藩QID=Q10863341
+要確認	曽根藩	記事=OK	Template=OK	Category=なし	別名候補 Template:美濃曽根藩主=なし	藩QID=Q10863391
+要確認	野村藩	記事=OK	Template=OK	Category=なし	別名候補 Template:美濃野村藩主=なし	藩QID=Q10863469
+要確認	美濃長谷川藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863517
+要確認	美濃脇坂藩	記事=OK	Template=OK	Category=なし	藩QID=Q10863516
+
+要確認: 42/70藩

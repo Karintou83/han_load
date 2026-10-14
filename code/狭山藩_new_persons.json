@@ -1,0 +1,20 @@
+[
+ {
+  "name": "北条氏利",
+  "role": "father",
+  "child_title": "北条氏治",
+  "child_qid": "Q11402161"
+ },
+ {
+  "name": "北条氏利",
+  "role": "father",
+  "child_title": "北条氏朝",
+  "child_qid": "Q11402159"
+ },
+ {
+  "name": "北条氏迪",
+  "role": "father",
+  "child_title": "北条氏燕",
+  "child_qid": "Q11402163"
+ }
+]

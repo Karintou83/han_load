@@ -1,0 +1,4 @@
+要確認	千束藩	記事=OK	Template=OK	Category=なし	藩QID=Q12111537
+OK 	肥後新田藩	記事=OK	Template=OK	Category=OK	藩QID=Q12168171
+
+要確認: 1/2藩

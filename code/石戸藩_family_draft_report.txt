@@ -1,0 +1,1 @@
+[牧野信成 (関宿藩主)] Infoboxから親族関係を抽出できませんでした。手動で確認するか、_BIOGRAPHY_INFOBOX_TEMPLATE_NAMES にテンプレート名を追加してください。
